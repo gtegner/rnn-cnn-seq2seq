@@ -53,14 +53,16 @@ def create_model(input_lang,output_lang, model='simple'):
     hidden_size = 24
     embedding_dim = 32
     kernel_size = 3
+
     encoder_layers = 1
+    decoder_layers = 1
 
     if(model == 'fairseq'):
         encoder = ConvEncoder(input_lang.n_words, hidden_size, embedding_dim, kernel_size, encoder_layers, MAX_LENGTH)
-        decoder = AttnDecoderRNN_CNN(hidden_size, output_lang.n_words, n_layers=3, dropout_p=0.1)
+        decoder = AttnDecoderRNN_CNN(hidden_size, output_lang.n_words, n_layers=1, dropout_p=0.1)
     elif model=='simple':
         encoder = simple_CNN_encoder(input_lang.n_words, hidden_size, embedding_dim, max_length=10)
-        decoder = DecoderRNN(output_lang.n_words, hidden_size, n_layers=1)
+        decoder = DecoderRNN(output_lang.n_words, hidden_size, n_layers=decoder_layers)
 
     return encoder, decoder
 
