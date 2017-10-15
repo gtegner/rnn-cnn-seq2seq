@@ -11,7 +11,7 @@ from torch import optim
 import torch.nn.functional as F
 
 
-from CNNModels import ConvEncoder2,AttnDecoderRNN_CNN, CNNTest, DecoderRNN
+from CNNModels import ConvEncoder,AttnDecoderRNN_CNN, simple_CNN_encoder, DecoderRNN
 
 from data_preprocessing import *
 
@@ -19,7 +19,7 @@ from utils import *
 
 from sklearn.model_selection import train_test_split
 
-from main import train_simple, trainIters_simple
+from train_utils import train_simple, trainIters_simple
 
 
 def split_data(pairs):
@@ -56,10 +56,10 @@ def create_model(input_lang,output_lang, model='simple'):
     encoder_layers = 1
 
     if(model == 'fairseq'):
-        encoder = ConvEncoder2(input_lang.n_words, hidden_size, embedding_dim, kernel_size, encoder_layers, MAX_LENGTH)
+        encoder = ConvEncoder(input_lang.n_words, hidden_size, embedding_dim, kernel_size, encoder_layers, MAX_LENGTH)
         decoder = AttnDecoderRNN_CNN(hidden_size, output_lang.n_words, n_layers=3, dropout_p=0.1)
     elif model=='simple':
-        encoder = CNNTest(input_lang.n_words, hidden_size, embedding_dim, max_length=10)
+        encoder = simple_CNN_encoder(input_lang.n_words, hidden_size, embedding_dim, max_length=10)
         decoder = DecoderRNN(output_lang.n_words, hidden_size, n_layers=1)
 
     return encoder, decoder

@@ -63,9 +63,9 @@ class GatedConvLayer(nn.Module):
 
 
 
-class CNNTest(nn.Module):
+class simple_CNN_encoder(nn.Module):
     def __init__(self, input_size, hidden_size, embedding_dim, max_length=10):
-        super(CNNTest, self).__init__()
+        super(simple_CNN_encoder, self).__init__()
 
         self.num_filters = 16
         self.max_length = max_length
@@ -238,9 +238,9 @@ class AttnDecoderRNN_CNN(nn.Module):
             return result
 
 
-class ConvEncoder2(nn.Module):
+class ConvEncoder(nn.Module):
     def __init__(self, input_size, hidden_size, embedding_dim, kernel_size,n_layers,max_length=10):
-        super(ConvEncoder2, self).__init__()
+        super(ConvEncoder, self).__init__()
 
         self.num_filters = hidden_size
         self.max_length = max_length
@@ -266,10 +266,6 @@ class ConvEncoder2(nn.Module):
 
         x = x.transpose(1,2) #BatchxHiddenxLength
 
-        #padding = self.
-        #print("Embedding size ", x.size() )
-
-        #CNN-A
 
         cnn_a_input = x
         cnn_b_input = x
@@ -282,10 +278,7 @@ class ConvEncoder2(nn.Module):
             cnn_b_input = F.tanh(cnn_b_input)
 
 
-        #B = F.tanh(self.convB(x))[:,:,:x.size(2)]
-
         A = cnn_a_input.squeeze(0).transpose(0,1)
         B = cnn_b_input.transpose(1,2)
 
-        #print("B size ", B.size() )
         return (A,B)

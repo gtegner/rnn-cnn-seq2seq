@@ -16,7 +16,6 @@ from torch.autograd import Variable
 from torch import optim
 import torch.nn.functional as F
 
-from models import *
 from utils import *
 
 from CNNModels import *
@@ -400,7 +399,7 @@ def main():
     embedding_dim = 12
     kernel_size = 2
 
-    cnn_encoder = CNNTest(input_lang.n_words, hidden_size, embedding_dim, kernel_size)
+    cnn_encoder = simple_CNN_encoder(input_lang.n_words, hidden_size, embedding_dim, kernel_size)
 
     #cnn_encoder = ConvEncoder(input_lang.n_words, hidden_size, kernel_size, n_layers=1)
     decoder1 = DecoderRNN(output_lang.n_words,hidden_size)
@@ -422,7 +421,7 @@ def main2():
     embedding_dim = 12
     kernel_size = 3
 
-    cnn_encoder = CNNTest(input_lang.n_words, hidden_size, embedding_dim, kernel_size)
+    cnn_encoder = simple_CNN_encoder(input_lang.n_words, hidden_size, embedding_dim, kernel_size)
     decoder1 = DecoderRNN(output_lang.n_words,hidden_size)
 
     conv_encoder = ConvEncoder(input_lang.n_words, hidden_size, kernel_size, n_layers=1)
@@ -486,7 +485,7 @@ def main3():
     kernel_size = 3
     n_iters = 10000
 
-    encoder = ConvEncoder2(input_lang.n_words, hidden_size, embedding_dim, kernel_size)
+    encoder = ConvEncoder(input_lang.n_words, hidden_size, embedding_dim, kernel_size)
 
     decoder = AttnDecoderRNN_CNN(hidden_size, output_lang.n_words, n_layers=1,
                                dropout_p=0.1)
